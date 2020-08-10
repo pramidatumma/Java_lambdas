@@ -7,20 +7,24 @@ public class ThisReferenceExample {
 
     public static void main(String[] args) {
         ThisReferenceExample thisReferenceExample = new ThisReferenceExample();
-        thisReferenceExample.doProcess(10, new Process() {
-            @Override
-            public void process(int i) {
-                System.out.println(i);
-                System.out.println(this); // This is referring to the anonymous inner class new Process
-            }
-
-            @Override
-            public String toString() {
-                return "This is anonymous innerclass";
-            }
+        thisReferenceExample.doProcess(10, (k)-> {
+            System.out.println(k);
+            //System.out.println(this); Lambdas are considered as within the scope of it's function calling it. Here main is static. So, this doesn't work.
         });
 
+        thisReferenceExample.execute();
+    }
 
+    private void execute() {
+        doProcess(10, (k)-> {
+            System.out.println(k);
+            System.out.println(this); //This points to the instance of thisReferenceExample on which this is called or outside of the lambda
+        });
+    }
+
+    @Override
+    public String toString() {
+        return "ThisReferenceExample{}";
     }
 }
 
